@@ -363,8 +363,7 @@ __run_start_script() {
           eval env -i HOME="$home" LC_CTYPE="$lc_type" PATH="$path" HOSTNAME="$sysname" USER="${SERVICE_USER:-$RUNAS_USER}" $extra_env sh -c "$cmd_exec" ||
           return 10
       else
-        su_cmd sh -c "$cmd_exec" ||
-          eval "$cmd_exec" || return 10
+        su_cmd "$cmd_exec" || eval "$cmd_exec" || return 10
       fi
     fi
   fi
@@ -472,7 +471,7 @@ fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # set switch user command
 if [ "$RUNAS_USER" = "root" ]; then
-  su_cmd() { eval "$*" || return 1; }
+  su_cmd() { eval "$@" || return 1; }
 elif [ "$(builtin type -P gosu)" ]; then
   su_exec="gosu $RUNAS_USER"
   su_cmd() { gosu $RUNAS_USER "$@" || return 1; }
