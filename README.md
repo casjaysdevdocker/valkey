@@ -19,17 +19,17 @@ dockermgr update valkey
 ## Install and run container
   
 ```shell
-mkdir -p "$HOME/.local/share/srv/docker/valkey/rootfs"
+mkdir -p "$HOME/.local/share/srv/docker/valkey/volumes"
 git clone "https://github.com/dockermgr/valkey" "$HOME/.local/share/CasjaysDev/dockermgr/valkey"
-cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/valkey/rootfs/." "$HOME/.local/share/srv/docker/valkey/rootfs/"
+cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/valkey/rootfs/." "$HOME/.local/share/srv/docker/valkey/volumes/"
 docker run -d \
 --restart always \
 --privileged \
 --name casjaysdevdocker-valkey \
 --hostname valkey \
 -e TZ=${TIMEZONE:-America/New_York} \
--v "$HOME/.local/share/srv/docker/casjaysdevdocker-valkey/rootfs/data:/data:z" \
--v "$HOME/.local/share/srv/docker/casjaysdevdocker-valkey/rootfs/config:/config:z" \
+-v "$HOME/.local/share/srv/docker/casjaysdevdocker-valkey/volumes/data:/data:z" \
+-v "$HOME/.local/share/srv/docker/casjaysdevdocker-valkey/volumes/config:/config:z" \
 -p 80:80 \
 casjaysdevdocker/valkey:latest
 ```
@@ -46,8 +46,8 @@ services:
       - TZ=America/New_York
       - HOSTNAME=valkey
     volumes:
-      - "$HOME/.local/share/srv/docker/casjaysdevdocker-valkey/rootfs/data:/data:z"
-      - "$HOME/.local/share/srv/docker/casjaysdevdocker-valkey/rootfs/config:/config:z"
+      - "$HOME/.local/share/srv/docker/casjaysdevdocker-valkey/volumes/data:/data:z"
+      - "$HOME/.local/share/srv/docker/casjaysdevdocker-valkey/volumes/config:/config:z"
     ports:
       - 80:80
     restart: always
